@@ -13,10 +13,13 @@ class Menu extends Phaser.Scene {
     create() {
         // menu text configuration
         let menuConfig = {
-            fontFamily: 'Courier',
-            fontSize: '28px',
-            backgroundColor: '#F3B141',
-            color: '#843605',
+            fontFamily: 'Times New Roman',
+            // fontSize: '28px',
+            fontSize: '30px',
+            // backgroundColor: '#F3B141',
+            backgroundColor: '#5775D3',
+            // color: '#843605',\
+            color: '#CCD1D1',
             align: 'right',
             padding: {
                 top: 5,
@@ -28,8 +31,10 @@ class Menu extends Phaser.Scene {
         // show menu text
         this.add.text(game.config.width/2, game.config.height/2 - borderUISize - borderPadding, 'ROCKET PATROL', menuConfig).setOrigin(0.5);
         this.add.text(game.config.width/2, game.config.height/2, 'Use ←→ arrows to move & (F) to fire', menuConfig).setOrigin(0.5);
-        menuConfig.backgroundColor = '#00FF00';
-        menuConfig.color = '#000';
+        // menuConfig.backgroundColor = '#00FF00';
+        menuConfig.backgroundColor = '#CCD1D1';
+        // menuConfig.color = '#000';
+        menuConfig.color = '#5775D3';
         this.add.text(game.config.width/2, game.config.height/2 + borderUISize + borderPadding, 'Press ← for Novice or → for Expert', menuConfig).setOrigin(0.5);
 
         // define keys
@@ -41,7 +46,8 @@ class Menu extends Phaser.Scene {
         if (Phaser.Input.Keyboard.JustDown(keyLEFT)) {
           // Novice mode
           game.settings = {
-            spaceshipSpeed: 3,
+            // spaceship speed was orginally 3
+            spaceshipSpeed: 5,
             gameTimer: 60000    
           }
           this.sound.play('sfx_select');
@@ -50,7 +56,8 @@ class Menu extends Phaser.Scene {
         if (Phaser.Input.Keyboard.JustDown(keyRIGHT)) {
           // Expert mode
           game.settings = {
-            spaceshipSpeed: 4,
+            // spaceship speed was orginally 3
+            spaceshipSpeed: 5,
             gameTimer: 45000    
           }
           this.sound.play('sfx_select');
