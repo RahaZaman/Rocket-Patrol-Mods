@@ -29,7 +29,7 @@ class Play extends Phaser.Scene {
         this.p1Rocket = new Rocket(this, game.config.width/2, game.config.height - borderUISize - borderPadding, 'rocket').setOrigin(0.5, 0);
 
         // add Spaceships (x3)
-        this.ship01 = new Spaceship(this, game.config.width + borderUISize*6, borderUISize*4, 'modified-spaceship', 0, 15).setOrigin(0, 0);
+        this.ship01 = new Spaceship(this, game.config.width + borderUISize*6, borderUISize*4, 'modified-spaceship', 0, 20).setOrigin(0, 0);
         this.ship02 = new Spaceship(this, game.config.width + borderUISize*3, borderUISize*5 + borderPadding*2, 'spaceship', 0, 10).setOrigin(0,0);
         this.ship03 = new Spaceship(this, game.config.width, borderUISize*6 + borderPadding*4, 'modified-spaceship', 0, 15).setOrigin(0,0);
 
@@ -58,18 +58,47 @@ class Play extends Phaser.Scene {
 
         // display score
         let scoreConfig = {
-            fontFamily: 'Courier',
-            fontSize: '28px',
-            backgroundColor: '#F3B141',
-            color: '#843605',
+            // fontFamily: 'Courier',
+            fontFamily: 'Times New Roman',
+            // fontSize: '28px',
+            fontSize: '29px',
+            // backgroundColor: '#F3B141',
+            backgroundColor: '#5775D3',
+            // color: '#843605',
+            color: '#CCD1D1',
             align: 'right',
-            padding: {
-                top: 5,
-                bottom: 5,
+            margin: {
+              top: 5,
+              bottom: 5,
             },
-            fixedWidth: 100
+            // fixedWidth: 100,
+            fixedWidth: 60,
         }
         this.scoreLeft = this.add.text(borderUISize + borderPadding, borderUISize + borderPadding*2, this.p1Score, scoreConfig);
+
+        // display game timer
+        this.gameSeconds = game.settings.gameTimer / 1000;
+
+        let timerConfig = {
+            // fontFamily: 'Courier',
+            fontFamily: 'Times New Roman',
+            // fontSize: '28px',
+            fontSize: '29px',
+            // backgroundColor: '#F3B141',
+            backgroundColor: '#5775D3',
+            // color: '#843605',
+            color: '#CCD1D1',
+            align: 'center',
+            margin: {
+            top: 5,
+            bottom: 5,
+            },
+            // fixedWidth: 100,
+            fixedWidth: 60,
+        }
+
+        // displaying the timer
+        this.gameSeconds = this.add.text(borderUISize + borderPadding*47, borderUISize + borderPadding*2, this.gameSeconds, timerConfig);
 
         // GAME OVER flag
         this.gameOver = false;
@@ -101,6 +130,9 @@ class Play extends Phaser.Scene {
             this.ship02.update();
             this.ship03.update();
         }
+
+        // update the game timer
+        
 
         // check collisions
         if(this.checkCollision(this.p1Rocket, this.ship03)) {
