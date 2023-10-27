@@ -4,7 +4,7 @@ Rahamat Zaman
 
 Rocket Patrol Transmutations
 
-Approximate time to complete project: 
+Approximate time to complete project: 5-6 Hours
 
 Mods Chosen: 
 New enemy Spaceship type (w/ new artwork) that's smaller, moves faster, and is worth more points (5 points)
@@ -15,6 +15,13 @@ Displaying the time remaining (in seconds) on the screen (3 points)
 Speed increase that happens after 30 seconds in the original game (1 points)
 
 Citations:
+
+Used the following below for when I was setting up the timer for the game
+// https://gamedev.stackexchange.com/questions/182242/phaser-3-how-to-trigger-an-event-every-1-second
+// https://phaser.discourse.group/t/performance-concerns-with-multiple-timers/828
+
+Used this to figure out how to randomly select an explosion sound
+// https://www.html5gamedevs.com/topic/37506-pick-random-element/
 
 */
 

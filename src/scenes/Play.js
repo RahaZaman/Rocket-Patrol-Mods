@@ -58,47 +58,59 @@ class Play extends Phaser.Scene {
 
         // display score
         let scoreConfig = {
-            // fontFamily: 'Courier',
             fontFamily: 'Times New Roman',
-            // fontSize: '28px',
             fontSize: '29px',
-            // backgroundColor: '#F3B141',
             backgroundColor: '#5775D3',
-            // color: '#843605',
             color: '#CCD1D1',
             align: 'right',
             margin: {
               top: 5,
               bottom: 5,
             },
-            // fixedWidth: 100,
             fixedWidth: 60,
         }
         this.scoreLeft = this.add.text(borderUISize + borderPadding, borderUISize + borderPadding*2, this.p1Score, scoreConfig);
 
-        // display game timer
+        // setting timer value
         this.gameSeconds = game.settings.gameTimer / 1000;
 
+        // Setting up the timer event 
+        this.timerEvent = this.time.addEvent({
+            delay: 1000, // 1000 milliseconds = 1 second
+            callback: updateGameTimer,
+            callbackScope: this,
+            loop: true,
+        });
+
+        function updateGameTimer() {
+            // Decrement the game timer by 1 second (1000 milliseconds)
+            this.gameSeconds -= 1000 / 1000;
+            
+            // Updating the displayed timer text
+            this.gameDisplay.setText(this.gameSeconds);
+            
+            if (this.gameSeconds <= 0) {
+                this.gameOver = true; 
+                this.time.removeEvent(this.timerEvent);
+            }
+        }
+
+        // timer configuration when displaying on Play scene
         let timerConfig = {
-            // fontFamily: 'Courier',
             fontFamily: 'Times New Roman',
-            // fontSize: '28px',
             fontSize: '29px',
-            // backgroundColor: '#F3B141',
             backgroundColor: '#5775D3',
-            // color: '#843605',
             color: '#CCD1D1',
             align: 'center',
             margin: {
             top: 5,
             bottom: 5,
             },
-            // fixedWidth: 100,
             fixedWidth: 60,
         }
 
         // displaying the timer
-        this.gameSeconds = this.add.text(borderUISize + borderPadding*47, borderUISize + borderPadding*2, this.gameSeconds, timerConfig);
+        this.gameDisplay = this.add.text(borderUISize + borderPadding*47, borderUISize + borderPadding*2, this.gameSeconds, timerConfig);
 
         // GAME OVER flag
         this.gameOver = false;
@@ -131,8 +143,10 @@ class Play extends Phaser.Scene {
             this.ship03.update();
         }
 
-        // update the game timer
-        
+        // Speed increases after 30 seconds in the game
+        if (this.gameSeconds < 30) {
+            this.moveSpeed = this.moveSpeed * 3;
+        }
 
         // check collisions
         if(this.checkCollision(this.p1Rocket, this.ship03)) {
@@ -163,7 +177,8 @@ class Play extends Phaser.Scene {
 
     shipExplode(ship) {
         // temporarily hide ship
-        ship.alpha = 0;                         
+        ship.alpha = 0;                
+
         // create explosion sprite at ship's position
         let boom = this.add.sprite(ship.x, ship.y, 'explosion').setOrigin(0, 0);
         boom.anims.play('explode');             // play explode animation
@@ -172,10 +187,12 @@ class Play extends Phaser.Scene {
             ship.alpha = 1;                       // make ship visible again
             boom.destroy();                       // remove explosion sprite
         });
+
         // score add and repaint
         this.p1Score += ship.points;
         this.scoreLeft.text = this.p1Score; 
-        
-        this.sound.play('sfx_explosion');
+
+        // randomly selects explosion sound on impact
+        this.sound.play(Phaser.Math.RND.pick(['sfx_explosion', 'sfx_new_explosion1', 'sfx_new_explosion2', 'sfx_new_explosion3', 'sfx_new_explosion4']))
       }
 }
